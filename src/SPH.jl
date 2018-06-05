@@ -1,9 +1,9 @@
 
 module SPH
-    export sphread, sphwrite
+    export sphread, sphreadheader, sphwrite
 
     # isip.piconepress.com/projects/speech/software/tutorials/production/fundamentals/v1.0/section_02/text/nist_sphere.text
-    function read_header(io::IO)
+    function sphreadheader(io::IO)
         sph = Array{UInt8}(16)
         read!(io, sph)
         version = sph[1:8]
@@ -42,8 +42,14 @@ module SPH
         return header, header_len
     end
 
+    function sphreadheader(filename::AbstractString)
+        open(filename, "r") do io
+            sphreadheader(io)
+        end
+    end
+
     function sphread(io::IO)
-        header, header_len = read_header(io)
+        header, header_len = sphreadheader(io)
         data = take!(io)[(header_len + 1):end]
         return header, data
     end
