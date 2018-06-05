@@ -83,7 +83,7 @@ module SPH
         end
     end
 
-    function sphwrite(header, data, io::IO)
+    function sphwrite(header, samples, io::IO)
         header_len = 1024
         bytes_written = 0
         line = "NIST_1A\n"
@@ -118,12 +118,13 @@ module SPH
         write(io, line)
         bytes_written += length(line)
         write(io, repeat(" ", header_len - bytes_written))
-        write(io, data)
+        fmt = get_wav_format(header)
+        WAV.write_data(io, fmt, samples)
     end
 
-    function sphwrite(header, data, filename::AbstractString)
+    function sphwrite(header, samples, filename::AbstractString)
         open(filename, "w") do io
-            sphwrite(header, data, io)
+            sphwrite(header, samples, io)
         end
     end
 end
