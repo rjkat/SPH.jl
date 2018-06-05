@@ -1,5 +1,6 @@
-
 module SPH
+    import WAV
+
     export sphread, sphreadheader, sphwrite
 
     # isip.piconepress.com/projects/speech/software/tutorials/production/fundamentals/v1.0/section_02/text/nist_sphere.text
@@ -48,15 +49,37 @@ module SPH
         end
     end
 
-    function sphread(io::IO)
-        header, header_len = sphreadheader(io)
-        data = take!(io)[(header_len + 1):end]
-        return header, data
+    function get_wav_format(header)
+        cc = get(
+            Dict(
+                "ulaw" => WAV.WAVE_FORMAT_MULAW,
+                "alaw" => WAV.WAVE_FORMAT_ALAW
+            ),
+            header["sample_coding"],
+            WAV.WAVE_FORMAT_PCM
+        )
+        fs = header["sample_rate"]
+        nchan = header["channel_count"]
+        nb = header["sample_n_bytes"] * 8
+        ba = header["sample_n_bytes"] * nchan
+        bps = fs * ba
+        ext = WAV.WAVFormatExtension()
+        return WAV.WAVFormat(cc, nchan, fs, bps, ba, nb, ext)
     end
 
-    function sphread(filename::AbstractString)
+    function sphread(io::IO; subrange=Void, format="double")
+        header, header_len = sphreadheader(io)
+        data = take!(io)[(header_len + 1):end]
+        buf = IOBuffer(data)
+        fmt = get_wav_format(header)
+        # use the internal WAV functions for doing ulaw and alaw
+        samples = WAV.read_data(buf, length(data), fmt, format, subrange)
+        return header, samples
+    end
+
+    function sphread(filename::AbstractString; subrange=Void, format="double")
         open(filename, "r") do io
-            sphread(io)
+            sphread(io; subrange=subrange, format=format)
         end
     end
 
