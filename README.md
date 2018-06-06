@@ -2,6 +2,43 @@
 Julia sphere file reader/writer. Shamelessly stolen from the excellent
 [WAV.jl package](https://github.com/dancasimiro/WAV.jl) by [Dan Casimiro](https://github.com/dancasimiro).
 
+Installation
+------------
+
+    julia> Pkg.add("SPH")
+
+Getting Started
+---------------
+
+SPH provides `sphread`, `sphwrite`, and `sph2wav` commands to read,
+write, and convert SPH files. Here is an example to get you started.
+It generates some data, writes it to a file and then reads the data back.
+`sph2wav` is then used to convert the SPH file to a WAV file.
+`sphreadheader` is also provided for reading an SPH header.
+
+```jlcon
+julia> using SPH
+julia> header = Dict{String, Any}(
+  "channel_count" => 1,
+  "sample_coding" => "pcm",
+  "sample_rate" => 8000,
+  "sample_count" => 8000,
+  "sample_byte_format" => "0123",
+  "sample_n_bytes" => 4
+)
+julia> samples = sin.(2 * pi * [0:7999;] * 440.0 / 8000) * 0.01
+julia> sphwrite(header, samples, "example.sph")
+julia> header, x = sphread("example.sph")
+julia> sph2wav("example.sph", "example.wav")
+julia> h = sphreadheader("example.sph")
+```
+
+Note
+---------------
+
+`sphread` and `sphwrite` currently do not obey the `sample_byte_format` in the SPH header.
+If this is an issue for you, let me know and I can add this functionality.
+
 sphreadheader
 -------
 ```julia

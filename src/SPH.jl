@@ -96,15 +96,15 @@ module SPH
             val = header[obj]
             s = ""
             T = typeof(val)
-            if T <: Real
+            if T <: Integer
+                s = "$val"
+                t = "-i"
+            elseif T <: Real
                 s = "$val"
                 t = "-r"
             elseif T <: Bool
                 s = uppercase("$val")
                 t = "-s$(length(s))"
-            elseif T <: Integer
-                s = String(val)
-                t = "-i"
             else
                 @assert T <: AbstractString
                 s = val
@@ -136,7 +136,7 @@ module SPH
 
     function sph2wav(sph_filename::AbstractString, wav_filename::AbstractString)
         open(sph_filename, "r") do sph
-            open(wav_filename, "r") do wav
+            open(wav_filename, "w") do wav
                 sph2wav(sph, wav)
             end
         end
