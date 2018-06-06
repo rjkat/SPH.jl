@@ -46,7 +46,7 @@ function sphreadheader(io::IO)
 function sphread(filename::AbstractString)
 ```
 
-Return a ```Dict{String, Any}``` corresponding to the [Sphere header](isip.piconepress.com/projects/speech/software/tutorials/production/fundamentals/v1.0/section_02/text/nist_sphere.text) with Julian typing. e.g.
+Return a ```Dict{String, Any}``` corresponding to the [Sphere header](http://isip.piconepress.com/projects/speech/software/tutorials/production/fundamentals/v1.0/section_02/text/nist_sphere.text) with Julian typing. e.g.
 
 ```julia
 Dict{String, Any}(
