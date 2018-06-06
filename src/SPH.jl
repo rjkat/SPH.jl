@@ -1,7 +1,7 @@
 module SPH
     import WAV
 
-    export sphread, sphreadheader, sphwrite
+    export sphread, sphreadheader, sphwrite, sph2wav
 
     # isip.piconepress.com/projects/speech/software/tutorials/production/fundamentals/v1.0/section_02/text/nist_sphere.text
     function sphreadheader(io::IO)
@@ -125,6 +125,20 @@ module SPH
     function sphwrite(header, samples, filename::AbstractString)
         open(filename, "w") do io
             sphwrite(header, samples, io)
+        end
+    end
+
+    function sph2wav(sph::IO, wav::IO)
+        header, samples = sphread(sph)
+        fmt = get_wav_format(header)
+        WAV.wavwrite(samples, wav; Fs=fmt.sample_rate, nbits=fmt.nbits, compression=fmt.compression_code)
+    end
+
+    function sph2wav(sph_filename::AbstractString, wav_filename::AbstractString)
+        open(sph_filename, "r") do sph
+            open(wav_filename, "r") do wav
+                sph2wav(sph, wav)
+            end
         end
     end
 end

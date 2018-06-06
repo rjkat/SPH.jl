@@ -9,12 +9,23 @@ function sphreadheader(io::IO)
 function sphread(filename::AbstractString)
 ```
 
-Return a ```Dict{String, Any}``` corresponding to the [Sphere header](isip.piconepress.com/projects/speech/software/tutorials/production/fundamentals/v1.0/section_02/text/nist_sphere.text) with Julian typing,
+Return a ```Dict{String, Any}``` corresponding to the [Sphere header](isip.piconepress.com/projects/speech/software/tutorials/production/fundamentals/v1.0/section_02/text/nist_sphere.text) with Julian typing. e.g.
+
+```julia
+Dict{String, Any}(
+    "channel_count"      => 1,
+    "sample_coding"      => "pcm",
+    "sample_byte_format" => "01",
+    "sample_rate"        => 8000,
+    "sample_n_bytes"     => 4,
+    "sample_count"       => 8000
+)
+```
 
 sphread
 -------
 
-This function reads the samples from a [NIST Sphere file](isip.piconepress.com/projects/speech/software/tutorials/production/fundamentals/v1.0/section_02/text/nist_sphere.text). The samples are converted to floating
+This function reads the samples from a [NIST Sphere file](http://isip.piconepress.com/projects/speech/software/tutorials/production/fundamentals/v1.0/section_02/text/nist_sphere.text). The samples are converted to floating
 point values in the range from `-1.0` to `1.0` by default.
 
 ```julia
@@ -35,7 +46,7 @@ The available options, and the default values, are:
 
 The returned values are:
 
-* ``header``: The SPH header; A ```Dict{String, Any}``` corresponding to the [Sphere header](isip.piconepress.com/projects/speech/software/tutorials/production/fundamentals/v1.0/section_02/text/nist_sphere.text), with Julian typing
+* ``header``: The SPH header; same as returned by `sphreadheader`
 * ``samples``: The acoustic samples; A matrix is returned for files that contain multiple channels.
 
 
