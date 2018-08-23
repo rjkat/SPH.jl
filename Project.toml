@@ -1,4 +1,8 @@
+author = ["Rowan Katekar <rkat@ieee.org>"]
 name = "SPH"
-uuid = "3ce0781a-a692-11e8-0084-ff241dd9383b"
-authors = ["Rowan Katekar <rkat@ieee.org>"]
+repo = "https://github.com/rkat/SPH.jl.git"
+uuid = "9ea8cd13-fabe-5354-bade-922846b34814"
 version = "0.1.0"
+
+[deps]
+WAV = "8149f6b0-98f6-5db9-b78f-408fbbb8ef88"

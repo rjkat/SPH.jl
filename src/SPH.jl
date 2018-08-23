@@ -50,12 +50,13 @@ module SPH
     end
 
     function get_wav_format(header)
+        fmt = get(header, "sample_coding", "pcm")
         cc = get(
             Dict(
                 "ulaw" => WAV.WAVE_FORMAT_MULAW,
                 "alaw" => WAV.WAVE_FORMAT_ALAW
             ),
-            header["sample_coding"],
+            fmt,
             WAV.WAVE_FORMAT_PCM
         )
         fs = header["sample_rate"]

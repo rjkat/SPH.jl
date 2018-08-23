@@ -5,11 +5,13 @@ import WAV
 function make_sph_header(;coding="pcm")
     header = Dict{String, Any}(
         "channel_count"      => 1,
-        "sample_coding"      => coding,
         "sample_rate"        => 8000,
         "sample_count"       => 8000
     )
-    if coding == "pcm"
+    if coding != nothing
+        header["sample_coding"] = coding
+    end
+    if coding in ["pcm", nothing]
         header["sample_byte_format"] = "0123"
         header["sample_n_bytes"] = 4
     else
@@ -41,11 +43,12 @@ function test_sph_roundtrip(;coding="pcm")
     rm(sph_filename)
     @test Set(keys(header)) == Set(keys(sph_header))
     @test all([header[k] == sph_header[k] for k in keys(header)])
-    tolerance = coding == "pcm" ? 1e-9 : 1e-3
+    tolerance = coding in ["pcm", nothing] ? 1e-9 : 1e-3
     @test all(isapprox.(sph_samples, samples; atol=tolerance))
 end
 
 test_sph2wav()
-for coding in ["pcm", "ulaw", "alaw"]
+# nothing == sample_coding not specified in header, should assume pcm in this case
+for coding in ["pcm", "ulaw", "alaw", nothing]
     test_sph_roundtrip(coding=coding)
 end
