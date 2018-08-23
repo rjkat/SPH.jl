@@ -1,0 +1,4 @@
+name = "SPH"
+uuid = "3ce0781a-a692-11e8-0084-ff241dd9383b"
+authors = ["Rowan Katekar <rkat@ieee.org>"]
+version = "0.1.0"
