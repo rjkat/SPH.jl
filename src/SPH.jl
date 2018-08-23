@@ -5,11 +5,11 @@ module SPH
 
     # isip.piconepress.com/projects/speech/software/tutorials/production/fundamentals/v1.0/section_02/text/nist_sphere.text
     function sphreadheader(io::IO)
-        sph = Array{UInt8}(16)
+        sph = Array{UInt8}(undef, 16)
         read!(io, sph)
         version = sph[1:8]
         header_len = parse(Int, String(sph[9:16]))
-        h = Array{UInt8}(header_len - 16)
+        h = Array{UInt8}(undef, header_len - 16)
         read!(io, h)
         header_lines = strip.(split(String(h), "\n"))
         header = Dict{String, Any}()
@@ -68,7 +68,7 @@ module SPH
         return WAV.WAVFormat(cc, nchan, fs, bps, ba, nb, ext)
     end
 
-    function sphread(io::IO; subrange=Void, format="double")
+    function sphread(io::IO; subrange=(:), format="double")
         header, header_len = sphreadheader(io)
         data = take!(io)[(header_len + 1):end]
         buf = IOBuffer(data)
@@ -78,7 +78,7 @@ module SPH
         return header, samples
     end
 
-    function sphread(filename::AbstractString; subrange=Void, format="double")
+    function sphread(filename::AbstractString; subrange=(:), format="double")
         open(filename, "r") do io
             sphread(io; subrange=subrange, format=format)
         end
