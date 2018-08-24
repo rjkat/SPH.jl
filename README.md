@@ -1,7 +1,9 @@
 
 # SPH.jl
+Build status:
 - julia v0.7 [![Build Status](https://travis-ci.org/rkat/SPH.jl.svg?branch=0.7)](https://travis-ci.org/rkat/SPH.jl)
 - julia v1.0 [![Build Status](https://travis-ci.org/rkat/SPH.jl.svg?branch=master)](https://travis-ci.org/rkat/SPH.jl)
+
 Julia sphere file reader/writer. Shamelessly stolen from the excellent
 [WAV.jl package](https://github.com/dancasimiro/WAV.jl) by [Dan Casimiro](https://github.com/dancasimiro).
 
