@@ -1,0 +1,13 @@
+# http://docs.travis-ci.com/user/languages/julia/
+language: julia
+os:
+  - osx
+  - linux
+julia:
+  - 0.6
+  - 0.7
+  - nightly
+notifications:
+  email: false
+after_success:
+  - julia -e 'cd(Pkg.dir("SPH")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())';
