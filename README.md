@@ -1,8 +1,7 @@
 
 # SPH.jl
-[![Build Status](https://pkg.julialang.org/badges/SPH_0.6.svg)](http://pkg.julialang.org/?pkg=SPH)
-[![Build Status](https://pkg.julialang.org/badges/SPH_0.7.svg)](http://pkg.julialang.org/?pkg=SPH)
-[![Build Status](https://pkg.julialang.org/badges/SPH_1.0.svg)](http://pkg.julialang.org/?pkg=SPH)
+[![Build Status](https://travis-ci.org/rkat/SPH.jl.svg?branch=0.7)](https://travis-ci.org/rkat/SPH.jl)
+[![Build Status](https://travis-ci.org/rkat/SPH.jl.svg?branch=master)](https://travis-ci.org/rkat/SPH.jl)
 Julia sphere file reader/writer. Shamelessly stolen from the excellent
 [WAV.jl package](https://github.com/dancasimiro/WAV.jl) by [Dan Casimiro](https://github.com/dancasimiro).
 
