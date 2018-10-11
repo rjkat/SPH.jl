@@ -70,7 +70,8 @@ module SPH
 
     function sphread(io::IO; subrange=(:), format="double")
         header, header_len = sphreadheader(io)
-        data = take!(io)[(header_len + 1):end]
+        seekstart(io)
+        data = read(io)[(header_len + 1):end]
         buf = IOBuffer(data)
         fmt = get_wav_format(header)
         # use the internal WAV functions for doing ulaw and alaw
